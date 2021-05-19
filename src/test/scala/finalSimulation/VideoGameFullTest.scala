@@ -14,7 +14,7 @@ class VideoGameFullTest extends Simulation {
   val httpConf = http
     .baseUrl("http://localhost:8084/app/")
     .header("Accept", "application/json")
-    .proxy(Proxy("localhost",8866))
+//    .proxy(Proxy("localhost",8866))
 
   /*** Variables ***/
   // runtime variables
@@ -109,7 +109,7 @@ class VideoGameFullTest extends Simulation {
       ,rampUsers(userCount) during (rampDuration.seconds)
     )
   ).protocols(httpConf)
-    .maxDuration(testDuration.seconds)
+//    .maxDuration(testDuration.seconds)
 
   /*** After ***/
   after {
