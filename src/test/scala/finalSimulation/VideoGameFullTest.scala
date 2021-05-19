@@ -19,7 +19,7 @@ class VideoGameFullTest extends Simulation {
   /*** Variables ***/
   // runtime variables
   def userCount: Int = getProperty("USERS", "20").toInt
-  def rampDuration: Int = getProperty("RAMP_DURATION", "60").toInt
+  def rampDuration: Int = getProperty("RAMP_DURATION", "45").toInt
   def testDuration: Int = getProperty("DURATION", "60").toInt
 
   // other variables
@@ -104,12 +104,12 @@ class VideoGameFullTest extends Simulation {
   /*** Setup Load Simulation ***/
   setUp(
     scn.inject(
-      nothingFor(5.seconds)
+      nothingFor(3.seconds)
 //      ,atOnceUsers(1)
       ,rampUsers(userCount) during (rampDuration.seconds)
     )
   ).protocols(httpConf)
-//    .maxDuration(testDuration.seconds)
+    .maxDuration(testDuration.seconds)
 
   /*** After ***/
   after {
