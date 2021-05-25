@@ -12,18 +12,19 @@ import scala.concurrent.duration._
 class VideoGameFullTest extends Simulation {
 
   val httpConf = http
-    .baseUrl("http://localhost:8084/app/")
+    .baseUrl("http://192.168.1.247:8084/app/")
     .header("Accept", "application/json")
 //    .proxy(Proxy("localhost",8866))
 
   /*** Variables ***/
   // runtime variables
-  def userCount: Int = getProperty("USERS", "20").toInt
-  def rampDuration: Int = getProperty("RAMP_DURATION", "45").toInt
-  def testDuration: Int = getProperty("DURATION", "60").toInt
+  def ramUserCount: Int = getProperty("RAM_USERS", "20").toInt
+  def rampDuration: Int = getProperty("RAM_DURATION", "10").toInt
+  def heavisideUserCount: Int = getProperty("HEAVISIDE_USERS", "100").toInt
+  def heavisideDuration: Int = getProperty("HEAVISIDE_DURATION", "20").toInt
 
   // other variables
-  var idNumbers = (30 to 1000).iterator
+  var idNumbers = (11 to 10000).iterator
   val rnd = new Random()
   val now = LocalDate.now()
   val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -55,9 +56,10 @@ class VideoGameFullTest extends Simulation {
 
   /*** Before ***/
   before {
-    println(s"Running test with ${userCount} users")
-    println(s"Ramping users over ${rampDuration} seconds")
-    println(s"Total Test duration: ${testDuration} seconds")
+    println(s"Running test with RAM_USERS: ${ramUserCount} users")
+    println(s"Running test with RAMP_DURATION: ${rampDuration} seconds")
+    println(s"Running test with HEAVISIDE_USERS: ${heavisideUserCount} users")
+    println(s"Running test with HEAVISIDE_DURATION: ${heavisideDuration} seconds")
   }
 
   /*** HTTP Calls ***/
@@ -105,11 +107,11 @@ class VideoGameFullTest extends Simulation {
   setUp(
     scn.inject(
       nothingFor(3.seconds)
-//      ,atOnceUsers(1)
-      ,rampUsers(userCount) during (rampDuration.seconds)
+      ,rampUsers(ramUserCount) during (rampDuration.seconds)
+      ,heavisideUsers(heavisideUserCount) during(heavisideDuration.seconds)
     )
   ).protocols(httpConf)
-    .maxDuration(testDuration.seconds)
+//    .maxDuration(120.seconds)
       .assertions(
         global.responseTime.max.lt(500),
         global.failedRequests.percent.lt(1)

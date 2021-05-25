@@ -1,11 +1,12 @@
-package simulations
+package demo_script
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
+
 import scala.concurrent.duration.DurationInt
 
-class CheckResponseCode extends Simulation{
-  val httpConf = http.baseUrl("http://localhost:8084/app/")
+class DemoCheckResponseCode extends Simulation{
+  val httpConf = http.baseUrl("http://192.168.1.247:8084/app/")
     .header("Accept","application/json")
     .proxy(Proxy("localhost",8866))
 

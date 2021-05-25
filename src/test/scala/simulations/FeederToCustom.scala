@@ -8,7 +8,7 @@ class FeederToCustom extends Simulation{
     .header("Accept","application/json")
     .proxy(Proxy("localhost",8866))
 
-  var idNumbers = (1 to 10).iterator
+  var idNumbers = (11 to 1000).iterator
 
   val feederCustom = Iterator.continually(Map("gameId" -> idNumbers.next()))
 
@@ -22,7 +22,13 @@ class FeederToCustom extends Simulation{
 
         .exec{mysession => println(mysession("response").as[String]); mysession}
 
-        .pause(1)
+
+//      .exec(http("Delete Last Posted Game")
+//          .delete("videogames/${gameId}")
+//          .check(status.is(200)))
+
+
+//        .pause(1)
     }
   }
 
