@@ -10,8 +10,9 @@ To start the APIs server, run the commands
 
 To test it out, simply execute the following command:
 
+    $ mvn gatling:test -Dgatling.simulationClass=finalSimulation.VideoGameFullTest
+    $ mvn gatling:test -Dgatling.simulationClass=finalSimulation.VideoGameFullTest -DRAM_USERS=20 -DRAM_DURATION=20 -DHEAVISIDE_USERS=100 -DHEAVISIDE_DURATION=20
 
-    $mvn gatling:test -Dgatling.simulationClass=simulations.CsvFeeder
 
 or simply:
 
